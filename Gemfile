@@ -1,13 +1,17 @@
 source 'https://rubygems.org'
 
+ruby '1.9.3'  # need this for  http://mongoid.org/en/mongoid/docs/tips.html#ruby
+
 gem 'rails', '3.2.6'
 
+gem 'mongoid', '~> 3.0.0'
+
+gem 'jquery-rails'
 
 
 
-gem "mongoid", "~> 3.0.0"
-
-
+# To use ActiveModel has_secure_password
+gem 'bcrypt-ruby', '~> 3.0.0'
 
 
 # Gems used only for assets and not required
@@ -22,19 +26,9 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
 
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
+group :production do
+  gem 'unicorn'
+end
 
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'debugger'
