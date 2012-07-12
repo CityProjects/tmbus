@@ -8,7 +8,9 @@ gem 'mongoid', '~> 3.0.0'
 
 gem 'jquery-rails'
 
+# Gem used to parse data from HTML
 
+gem 'nokogiri', '1.5.5'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
