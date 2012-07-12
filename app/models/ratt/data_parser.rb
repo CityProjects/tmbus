@@ -34,6 +34,7 @@ class Ratt::DataParser
         route_option_tag.each do |line|
           route_file.puts "Route id: " + i.to_s + " with transport vehicle id " + line['value'].to_s + " => " + line.text
         end
+        route_file.puts "\n"
       end
       route_file.close
     end
