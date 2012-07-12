@@ -27,7 +27,7 @@ class Ratt::DataParser
 
     if File.exists?(TEMP_FILE2) && File.file?(TEMP_FILE2)
       id.each do |i|
-        new_id = ROUTES + i.to_s
+        new_id = ROUTES + #{i}
         #puts new_id
         route_page = Nokogiri::HTML(open(new_id))
         route_option_tag  = route_page.css("option")
