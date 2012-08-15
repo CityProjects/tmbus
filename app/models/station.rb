@@ -1,7 +1,9 @@
 class Station
   include Mongoid::Document
 
-  field :name,    type: String
+  field :_id,       type: String
+  field :name,      type: String
+  field :raw_name,  type: String
 
   #todo: define location lat,lng - need to check mongo geolocation support
 
@@ -31,15 +33,31 @@ class Station
   ####################################
   class << self
 
-    def get_stations_data_html
-      # get data from STATIONS_URL
+    def update_stations_data
+      parse_stations_data_html(get_stations_data_html)
     end
 
 
+    def get_stations_data_html
+      # get data from STATIONS_URL
+      Nokogiri::HTML(Net::HTTP.get URI.parse(STATIONS_URL))
+    end
+
+
+    # @param [Nokogiri::HTML::Document] stations_data_html
     def parse_stations_data_html(stations_data_html)
       # for each station found
       #   create station = Station.new(data)
       #   save in DB:  station.save!
+
+      stations_option_tag = stations_data_html.css("option")
+      stations_option_tag.each do |line|
+        station = Station.new
+        station.id = line['value'].to_s
+        station.raw_name = line.text
+
+        station.save!
+      end
 
     end
 
