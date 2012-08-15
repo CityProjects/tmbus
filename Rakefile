@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-TranzitmRor::Application.load_tasks
+Tranzitm::Application.load_tasks

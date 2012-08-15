@@ -27,13 +27,14 @@ class Ratt::DataParser
 
     if File.exists?(TEMP_FILE2) && File.file?(TEMP_FILE2)
       id.each do |i|
-        new_id = ROUTES + #{i}
+        new_id = ROUTES + i.to_s
         #puts new_id
         route_page = Nokogiri::HTML(open(new_id))
         route_option_tag  = route_page.css("option")
         route_option_tag.each do |line|
           route_file.puts "Route id: " + i.to_s + " with transport vehicle id " + line['value'].to_s + " => " + line.text
         end
+        route_file.puts "\n"
       end
       route_file.close
     end
