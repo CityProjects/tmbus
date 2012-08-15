@@ -8,7 +8,7 @@ class Station
   #todo: define location lat,lng - need to check mongo geolocation support
 
 
-  belongs_to  :node, class_name: 'Node'
+  belongs_to  :junction, class_name: 'Junction'
 
   has_and_belongs_to_many :routes, class_name: 'Route'
 
@@ -55,7 +55,6 @@ class Station
         station = Station.new
         station.id = line['value'].to_s
         station.raw_name = line.text
-
         station.save!
       end
 

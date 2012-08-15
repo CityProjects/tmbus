@@ -1,4 +1,4 @@
-class Node
+class Junction
   include Mongoid::Document
 
   field :name,    type: String
