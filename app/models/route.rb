@@ -1,10 +1,13 @@
 class Route
   include Mongoid::Document
+  include Extras::Finders
 
   field :_id,                type: String
   field :transport_type,     type: Integer  # 11:bus, 12:troleibuz, 13:expres, 14:metropolitan, 14:P*, 21:tramvai
   field :transport_name,     type: String
   field :direction,          type: Integer # 1=tur, -1=retur
+
+  field :ratt_updated_at,    type: Time
 
   has_and_belongs_to_many :stations, class_name: 'Station'
 
@@ -17,8 +20,9 @@ class Route
 
   ## validations
 
-  validates :transport_type, inclusion: { in: TRANSPORT_TYPE_STRING_TO_INT_MAP.values }
-
+  validates :transport_type, presence: true, inclusion: { in: TRANSPORT_TYPE_STRING_TO_INT_MAP.values }
+  validates :transport_name, presence: true
+  validates :direction, presence: true, inclusion: { in: [ 1, -1 ] }
 
   ## scopes
   ####################################
@@ -52,19 +56,26 @@ class Route
 
       route_option_tag = routes_data_html.css("option")
       route_option_tag.each do |line|
-        route = station.routes.build()
-        route.id = line['value'].to_s
+        route_id = line['value'].to_s
+        route = find_by_id(route_id) || station.routes.build()
+        route.id = route_id
 
         route_parts = line.text.strip.match(/\[(\d)\]\s+(\D*)([0-9a-z\-]*)/i)
         route.direction = ( route_parts[1] == '0' ? 1 : -1 )
         route.transport_type = TRANSPORT_TYPE_STRING_TO_INT_MAP[ route_parts[2] ]
         route.transport_name = route_parts[3]
 
+        route.ratt_updated_at = Time.zone.now
+
         route.save!
       end
 
+    end
 
 
+
+    def clean_outdated_routes
+      Route.or( { :ratt_updated_at.lt => 5.days.ago }, { :ratt_updated_at => nil} ).destroy
     end
 
   end

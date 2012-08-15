@@ -1,5 +1,6 @@
 class Station
   include Mongoid::Document
+  include Extras::Finders
 
   field :_id,       type: String
   field :name,      type: String
@@ -17,6 +18,9 @@ class Station
 
 
   ## validations
+
+  validates :raw_name, presence: true
+
 
 
   ## scopes
@@ -52,22 +56,15 @@ class Station
 
       stations_option_tag = stations_data_html.css("option")
       stations_option_tag.each do |line|
-        station = Station.new
-        station.id = line['value'].to_s
+        station_id = line['value'].to_s
+        station = find_by_id(station_id) || Station.new
+        station.id = station_id
         station.raw_name = line.text
         station.save!
       end
 
     end
 
-
-
   end
-
-  ## instance-methods
-  ####################################
-
-
-
 
 end
