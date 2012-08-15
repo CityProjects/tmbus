@@ -31,9 +31,12 @@ class Station
   ####################################
   class << self
 
-    def parse_stations_data
-
+    def get_stations_data_html
       # get data from STATIONS_URL
+    end
+
+
+    def parse_stations_data_html(stations_data_html)
       # for each station found
       #   create station = Station.new(data)
       #   save in DB:  station.save!
