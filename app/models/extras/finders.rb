@@ -1,9 +1,5 @@
 module Extras::Finders
-
-  def self.included(klass)
-    klass.extend(ClassMethods)
-  end
-
+  extend ActiveSupport::Concern
 
 
 

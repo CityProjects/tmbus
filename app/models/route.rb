@@ -1,10 +1,12 @@
 class Route
   include Mongoid::Document
+  include Mongoid::Timestamps
+
   include Extras::Finders
 
   field :_id,                type: String
-  field :transport_type,     type: Integer  # 11:bus, 12:troleibuz, 13:expres, 14:metropolitan, 14:P*, 21:tramvai
-  field :transport_name,     type: String
+  field :type,               type: Integer  # 11:bus, 12:troleibuz, 13:expres, 14:metropolitan, 14:P*, 21:tramvai
+  field :number,             type: String
   field :direction,          type: Integer # 1=tur, -1=retur
 
   field :ratt_updated_at,    type: Time
@@ -15,13 +17,15 @@ class Route
   ROUTES_URL = 'http://82.77.146.19/txt/select_traseu.php?id_statie='
 
 
-  TRANSPORT_TYPE_STRING_TO_INT_MAP = { '' => 11, 'Tb' => 12, 'E' => 13, 'M' => 14, 'P' => 15, 'Tv' => 21 }
+  ROUTE_TYPE_STRING_TO_INT_MAP = { '' => 11, 'Tb' => 12, 'E' => 13, 'M' => 14, 'P' => 15, 'Tv' => 21 }
+  ROUTE_TYPE_INT_TO_SHORT_STRING_MAP = { 11 => '', 12 => 'Tb', 13 => 'E', 14 => 'M', 15 => 'P', 21 => 'Tv' }
+  ROUTE_TYPE_INT_TO_LONG_STRING_MAP = { 11 => 'Autobuz', 12 => 'Troleibuz' } #todo.. needed??
 
 
   ## validations
 
-  validates :transport_type, presence: true, inclusion: { in: TRANSPORT_TYPE_STRING_TO_INT_MAP.values }
-  validates :transport_name, presence: true
+  validates :type, presence: true, inclusion: { in: ROUTE_TYPE_STRING_TO_INT_MAP.values }
+  validates :number, presence: true
   validates :direction, presence: true, inclusion: { in: [ 1, -1 ] }
 
   ## scopes
@@ -62,8 +66,8 @@ class Route
 
         route_parts = line.text.strip.match(/\[(\d)\]\s+(\D*)([0-9a-z\-]*)/i)
         route.direction = ( route_parts[1] == '0' ? 1 : -1 )
-        route.transport_type = TRANSPORT_TYPE_STRING_TO_INT_MAP[ route_parts[2] ]
-        route.transport_name = route_parts[3]
+        route.type = ROUTE_TYPE_STRING_TO_INT_MAP[ route_parts[2] ]
+        route.number = route_parts[3]
 
         route.ratt_updated_at = Time.zone.now
 
@@ -74,8 +78,8 @@ class Route
 
 
 
-    def clean_outdated_routes
-      Route.or( { :ratt_updated_at.lt => 5.days.ago }, { :ratt_updated_at => nil} ).destroy
+    def clean_outdated_routes(days_old = 5)
+      Route.or( { :ratt_updated_at.lt => days_old.days.ago }, { :ratt_updated_at => nil} ).delete
     end
 
   end
@@ -87,18 +91,8 @@ class Route
 
 
 
-  def friendly_type_name(short = true)
-    case self.transport_type
-      when 11
-        return short ? "" : "Autobuz"
-      when 12
-        return short ? "Tb" : "Troleibuz"
-
-
-
-      else
-        "unknown"
-    end
+  def name(short = true)
+    "#{ROUTE_TYPE_INT_TO_SHORT_STRING_MAP[self.type]}#{self.number}(#{self.direction})"
   end
 
 

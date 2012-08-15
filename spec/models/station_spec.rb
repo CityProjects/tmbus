@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Station do
 
-  describe "#parse_stations_data" do
+  describe "#parse_stations_data_html" do
 
     it "parses"
 
