@@ -1,10 +1,15 @@
 class Station
   include Mongoid::Document
+  include Mongoid::Geospatial
   include Extras::Finders
 
   field :_id,       type: String
   field :name,      type: String
   field :raw_name,  type: String
+
+  field :geoloc,    type: Point, spatial: true
+  spatial_index :geoloc
+
 
   #todo: define location lat,lng - need to check mongo geolocation support
 
@@ -14,8 +19,12 @@ class Station
   has_and_belongs_to_many :routes, class_name: 'Route'
 
 
-  STATIONS_URL = 'http://82.77.146.19/txt/select_statie.php'
+  has_and_belongs_to_many :junction_stations, class_name: 'Station'
 
+
+
+  STATIONS_URL = 'http://82.77.146.19/txt/select_statie.php'
+  STATIONS_GEOLOCATIONS_URL = 'http://www.ratt.ro/harta/source/stations.xml'
 
   ## validations
 

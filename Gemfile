@@ -10,6 +10,7 @@ gem 'rake', '0.9.2.2' # good for heroku
 
 
 gem 'mongoid', '~> 3.0.4'
+gem 'mongoid_geospatial'
 
 
 gem 'httparty', '~> 0.7'
