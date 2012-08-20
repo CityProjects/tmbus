@@ -1,4 +1,4 @@
-Route id: 3411 with transport vehicle id 1547 =>  [1]  E8
+Station id: 3411 with transport vehicle id 1547 =>  [1]  E8
 Route id: 3411 with transport vehicle id 2166 =>  [0]  P1-a
 Route id: 3411 with transport vehicle id 1146 =>  [0]  21
 
