@@ -1,0 +1,46 @@
+defaults: &defaults
+  nexmo:
+    key: 1403c7d7
+    secret: 72c5b65b
+  stripe:
+    secret_key: sk_0EfVCI8N5SZ1yqsw9DgPkCmJ3QHhM
+    public_key: pk_0EfV7owW8BwaTyfMXN4U2HgAsiE0m
+  google_api_key: AIzaSyA8pqyYbkANdLNip74xNOJIue4dZpSXGpE
+  aws:
+    access_key: AKIAJXF4ORXLUR2HHSKQ
+    secret_key: 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
+  default_optin_offer_text: 10% off purchase, up to $10.
+  allowed_hours:
+    sms_send_out:
+      from: 9
+      until: 21
+    campaign_creation_same_day:
+      until: 18
+  master_phone_number: 13133465824
+  factual:
+    key: rZAOSRwaZ1KVZuCsPe0Z77Ma3miLR3I4qaBcXiqn
+    secret: Ai9Wm0deofVhyp95x8t4YtHxkmVpJLLpRAjnQFR3
+  manage_username: funky
+  manage_password: textd3alz_msc2
+
+
+
+
+development:
+  <<: *defaults
+
+
+test:
+  <<: *defaults
+
+
+staging:
+  <<: *defaults
+
+
+production:
+  <<: *defaults
+  stripe:
+    secret_key: sk_0J66F1anriaQ5jqo5iDJhRGd0kTuc
+    public_key: pk_0J66Wf5rfOdiovkdz2XDZL5gTBFM8
+  master_phone_number: 14083370766

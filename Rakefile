@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Tranzitm::Application.load_tasks
+Tmbus::Application.load_tasks

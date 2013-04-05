@@ -1,58 +1,68 @@
+source 'http://bundler-api.herokuapp.com'
 source 'https://rubygems.org'
 
-ruby '1.9.3'  # need this for  http://mongoid.org/en/mongoid/docs/tips.html#ruby
+ruby '2.0.0'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.12'
 
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 2.2.1'
 
-gem 'rake', '0.9.2.2' # good for heroku
+gem 'rake', '10.0.4' # good for heroku
+
+gem 'pg', '0.15.0'
+
+gem 'dalli', '~> 2.6.2' # for memcache
+
+gem 'resque', '~> 1.24.1'
+
+gem 'httparty', '~> 0.10.2'
+gem 'nokogiri', '~> 1.5.9'
+
+gem 'jbuilder', '~> 1.2.0'
+
+gem 'mobile-fu', '~> 1.1.1'
+
+#gem 'mixpanel'
 
 
-gem 'mongoid', '~> 3.0.4'
-gem 'mongoid_geospatial'
 
-
-gem 'httparty', '~> 0.7'
-gem 'nokogiri', '~> 1.5.5'
-
-gem 'bcrypt-ruby', '~> 3.0.0'
-
-
-# Gems used only for assets and not required
-# in production environments by default.
+# Gems used only for assets and not required in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
+  gem 'sass-rails',   '~> 3.2'
+  gem 'coffee-rails', '~> 3.2.2'
   gem 'uglifier', '>= 1.0.3'
-  gem 'twitter-bootstrap-rails', '~> 2.1.1'
+  gem 'therubyracer', '~> 0.11.4', platforms: :ruby
+  gem 'bootstrap-sass', '~> 2.3.1.0'
+  gem 'compass-rails', '~> 1.0.3'
 end
 
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.11'
-  gem 'factory_girl_rails', '~> 3.6'
-  gem 'spork-rails'
+  gem 'rspec-rails', '~> 2.13'
+  gem 'factory_girl_rails', '~> 4.2'
   gem 'database_cleaner'
+  gem 'faker'
+end
+
+
+group :development do
+  gem 'mailcatcher'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'meta_request'
+  gem 'thin'
 end
 
 
 group :test do
-  gem 'capybara', '>= 1.1.2'
-  gem 'faker'
-  gem 'launchy'
-  gem 'webrat'
-  gem 'resque_spec'
-  gem 'database_cleaner'
+  #gem 'capybara', '>= 1.1.2'
 end
 
 
 group :production do
-  gem 'unicorn'
-
-  #gem 'newrelic_rpm'
+  gem 'unicorn', '~> 4.6.2'
+  gem 'newrelic_rpm'
   #gem 'rpm_contrib' # for resque newrelic instrumentation
+  gem 'memcachier'
 end
 

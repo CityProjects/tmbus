@@ -46,7 +46,7 @@ Spork.each_run do
     Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
     # Routes
-    Tranzitm::Application.reload_routes!
+    Tmbus::Application.reload_routes!
 
 
     if Spork.using_spork?

@@ -1,19 +1,13 @@
-class Route < ActiveRecord::Base
+class Stop < ActiveRecord::Base
   include ClassnameTagLogger
 
   include Concerns::HasEid
   include Concerns::HasNames
 
-  attr_accessible :vehicle_type
+  attr_accessible :latitude, :longitude
 
-
-  has_many :directions
-
-  #has_many :route_stops, dependent: :destroy, order: 'stop_order'
-  #has_many :stops, through: :route_stops
-  #
-  #belongs_to :from_stop, class_name: 'Stop'
-  #belongs_to :to_stop,
+  has_many :route_stops
+  has_many :directions, through: :route_stops, uniq: true
 
 
   ## validations
@@ -35,6 +29,8 @@ class Route < ActiveRecord::Base
 
   ## instance_methods
   ####################################
+
+
 
 
 end
