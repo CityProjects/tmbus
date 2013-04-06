@@ -14,7 +14,7 @@ class CreateStops < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :stops, :eid
-    add_index :stops, :tag
+    add_index :stops, :eid, unique: true
+    add_index :stops, :tag, unique: true
   end
 end

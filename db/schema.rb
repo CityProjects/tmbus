@@ -11,29 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130404100004) do
-
-  create_table "directions", :force => true do |t|
-    t.string   "eid"
-    t.string   "tag"
-    t.integer  "first_stop_id"
-    t.integer  "last_stop_id"
-    t.integer  "route_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-  end
-
-  add_index "directions", ["route_id"], :name => "index_directions_on_route_id"
+ActiveRecord::Schema.define(:version => 20130404100003) do
 
   create_table "route_stops", :force => true do |t|
     t.integer  "route_stop_order"
-    t.integer  "direction_id"
+    t.integer  "direction"
+    t.integer  "route_id"
     t.integer  "stop_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end
 
-  add_index "route_stops", ["direction_id"], :name => "index_route_stops_on_direction_id"
+  add_index "route_stops", ["direction"], :name => "index_route_stops_on_direction"
+  add_index "route_stops", ["route_id", "direction", "route_stop_order"], :name => "route_direction_order_uniq", :unique => true
+  add_index "route_stops", ["route_id", "stop_id", "direction"], :name => "route_stop_direction_uniq", :unique => true
+  add_index "route_stops", ["route_id"], :name => "index_route_stops_on_route_id"
   add_index "route_stops", ["route_stop_order"], :name => "index_route_stops_on_route_stop_order"
   add_index "route_stops", ["stop_id"], :name => "index_route_stops_on_stop_id"
 
@@ -41,24 +33,30 @@ ActiveRecord::Schema.define(:version => 20130404100004) do
     t.string   "eid"
     t.string   "tag"
     t.string   "name"
-    t.string   "short_name"
+    t.string   "long_name"
     t.integer  "vehicle_type"
+    t.integer  "stop1_id"
+    t.integer  "stop2_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
+
+  add_index "routes", ["eid"], :name => "index_routes_on_eid", :unique => true
+  add_index "routes", ["tag"], :name => "index_routes_on_tag", :unique => true
+  add_index "routes", ["vehicle_type"], :name => "index_routes_on_vehicle_type"
 
   create_table "stops", :force => true do |t|
     t.string   "eid"
     t.string   "tag"
     t.string   "name"
-    t.string   "short_name"
+    t.string   "long_name"
     t.float    "latitude"
     t.float    "longitude"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  add_index "stops", ["eid"], :name => "index_stops_on_eid"
-  add_index "stops", ["tag"], :name => "index_stops_on_tag"
+  add_index "stops", ["eid"], :name => "index_stops_on_eid", :unique => true
+  add_index "stops", ["tag"], :name => "index_stops_on_tag", :unique => true
 
 end

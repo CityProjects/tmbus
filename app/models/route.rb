@@ -6,14 +6,12 @@ class Route < ActiveRecord::Base
 
   attr_accessible :vehicle_type
 
+  has_many :route_stops, order: 'route_stops.direction, route_stops.route_stop_order'
+  has_many :stops, through: :route_stops, order: 'route_stops.direction, route_stops.route_stop_order'
 
-  has_many :directions
+  belongs_to :stop1, class_name: 'Stop', foreign_key: 'stop1_id'
+  belongs_to :stop2, class_name: 'Stop', foreign_key: 'stop2_id'
 
-  #has_many :route_stops, dependent: :destroy, order: 'stop_order'
-  #has_many :stops, through: :route_stops
-  #
-  #belongs_to :from_stop, class_name: 'Stop'
-  #belongs_to :to_stop,
 
 
   ## validations

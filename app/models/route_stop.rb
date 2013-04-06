@@ -2,8 +2,9 @@ class RouteStop < ActiveRecord::Base
   include ClassnameTagLogger
 
   attr_accessible :route_stop_order
+  attr_accessible :direction
 
-  belongs_to :direction
+  belongs_to :route
   belongs_to :stop
 
 
