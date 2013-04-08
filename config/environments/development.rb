@@ -29,4 +29,6 @@ Tmbus::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
+
+  ActiveSupport::Dependencies.autoload_paths << File::join( Rails.root, 'app', 'workers')
 end
