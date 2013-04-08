@@ -25,6 +25,14 @@ Tmbus::Application.routes.draw do
   end
 
 
+
+
+  get '/manage', to: 'manage/base_management#index'
+  namespace :manage do
+    resources :routes
+  end
+
+
   root to: 'content#index'
 
 end
