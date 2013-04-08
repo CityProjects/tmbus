@@ -17,6 +17,8 @@ class RattDataCollector
       if stop.nil?
         Stop.create!(eid: stop_eid, ename: stop_name)
         #TODO: nofify admin of new data
+      else
+        stop.update_attributes!(ename: stop_name)
       end
     end
   end
@@ -53,9 +55,11 @@ class RattDataCollector
           if rt.nil?
             rt = Route.create!(name: route_name, eid: route_eid, ename: route_name)
             #TODO: nofify admin of new data
+          else
+            rt.update_attributes!(ename: route_name)
           end
 
-          rs = RouteStop.where('route_id = ? AND stop_id = ? AND direction = ?', rt.id, stop_id, direction).first
+          rs = RouteStop.where('route_id = ? AND stop_id = ?', rt.id, stop_id).first
           if rs.nil?
             rs = RouteStop.new
             rs.route_id = rt.id
@@ -63,6 +67,8 @@ class RattDataCollector
             rs.direction = direction
             rs.save!
             #TODO: nofify admin of new data
+          else
+            rs.update_attributes!(direction: direction)
           end
         end
       end
@@ -133,9 +139,9 @@ class RattDataCollector
     doc = Nokogiri::HTML(Net::HTTP.get(URI.parse(ROUTES_URL + stop_eid.to_s)))
     routes = []
     doc.css("select > option").each do |node|
-      route_name = node.content.gsub(/\[\d\]/, '').strip
+      route_name = node.content.strip.gsub(/\[\d\]/, '').strip
       route_eid = node['value']
-      direction = node.content[1] == '0' ? 0 : 1
+      direction = node.content.strip[1] == '0' ? 0 : 1
       routes << { eid: route_eid, name: route_name, direction: direction}
     end
     return routes
