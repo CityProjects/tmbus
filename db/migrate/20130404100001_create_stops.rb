@@ -3,10 +3,12 @@ class CreateStops < ActiveRecord::Migration
     create_table :stops do |t|
 
       t.string :eid # ratt station_id
+      t.string :ename # ratt station name
       t.string :tag
 
       t.string :name
       t.string :long_name
+      t.string :alternate_names
 
       t.float :latitude
       t.float :longitude

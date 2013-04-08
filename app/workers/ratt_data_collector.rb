@@ -1,20 +1,21 @@
 class RattDataCollector
   include ClassnameTagLogger
 
-  STOPS_URL = "http://82.77.146.19/txt/select_statie.php"
-  ROUTES_URL = "http://82.77.146.19/txt/select_traseu.php?id_statie="
-  ARRIVAL_TIMES_URL = "http://82.77.146.19/txt/afis_msg.php?id_traseu="
+  STOPS_URL = 'http://82.77.146.19/txt/select_statie.php'
+  ROUTES_URL = 'http://82.77.146.19/txt/select_traseu.php?id_statie='
+  ARRIVAL_TIMES_URL = 'http://82.77.146.19/txt/afis_msg.php?id_traseu='
+  GSPREADSHEET_URL = 'https://spreadsheets.google.com/spreadsheet/pub?key=0AtCtEmR70abcdG5ZaWRpRnI5dTFlUXN3U3Y0c0N2Wmc&gid=5'
 
   THREAD_COUNT = 6
 
   def collect_stops_data
     doc = Nokogiri::HTML(Net::HTTP.get(URI.parse(STOPS_URL)))
-    doc.css("select > option").each do |node|
+    doc.css('select > option').each do |node|
       stop_eid = node['value']
       stop_name = node.content.strip
       stop = Stop.where('eid = ?', stop_eid).first
       if stop.nil?
-        Stop.create!(name: stop_name, eid: stop_eid)
+        Stop.create!(eid: stop_eid, ename: stop_name)
         #TODO: nofify admin of new data
       end
     end
@@ -50,7 +51,7 @@ class RattDataCollector
 
           rt = Route.where('eid = ?', route_eid).first
           if rt.nil?
-            rt = Route.create!(name: route_name, eid: route_eid)
+            rt = Route.create!(name: route_name, eid: route_eid, ename: route_name)
             #TODO: nofify admin of new data
           end
 
@@ -80,6 +81,43 @@ class RattDataCollector
 
   end
 
+
+
+
+
+  def collect_from_gspreadsheet
+    doc = Nokogiri::HTML(Net::HTTP.get(URI.parse(GSPREADSHEET_URL)))
+    order_idx = 0
+    doc.css('#content table#tblMain tr').each do |tr_node|
+      if tr_node.children[1].content =~ /^\d+/
+        route_eid = tr_node.children[1].content
+        stop_eid = tr_node.children[3].content
+        stop_name = tr_node.children[6].content
+        stop_long_name = tr_node.children[5].content
+        stop_lat = tr_node.children[8].content
+        stop_lng = tr_node.children[9].content
+
+        stop = Stop.where('eid = ?', stop_eid).first
+        if stop
+          stop.update_attributes!(name: stop_name, long_name: stop_long_name, latitude: stop_lat, longitude: stop_lng)
+          logger.debug("updated Stop #{stop}")
+
+          route = Route.where('eid = ?', route_eid).first
+          if route
+            rs = stop.route_stops.where('route_id = ?', route.id).first
+            if rs
+              rs.update_attributes!(order_idx: order_idx)
+              logger.debug("updated RouteStop #{rs}")
+              order_idx += 1
+            end
+          end
+        end
+
+      else # not a 'Stop' row
+        order_idx = 0
+      end
+    end
+  end
 
 
 
@@ -121,33 +159,33 @@ class RattDataCollector
 
 
 
-  #def collect_places
-  #  routes = []
-  #  (1..4).each do |t|
-  #    doc = Nokogiri::HTML(Net::HTTP.get URI.parse("http://82.77.146.19/statii#{t}.html"))
-  #    routes_string = ""
-  #    doc.css('#centerContentContainer div a ~ div div[style] div[style*="text-align:center"] > span').each do |node|
-  #      routes_string += node.content.gsub(/\r/, '') + "\n"
-  #    end
-  #    routes_string = routes_string.gsub(/ \n/, "\n").gsub(/\n+/, "\n")
-  #    current_route = nil
-  #    routes_string.split(/\n/).each do |station|
-  #      if station =~ /^((M\s\d+)|(LINIA\s\d+)|(Expres\s\d+))/
-  #        current_route = { name: station, stations: [] }
-  #        routes << current_route
-  #
-  #        puts "ROUTE: #{t} - #{station}"
-  #
-  #      elsif station =~ /^SENS\s/
-  #        current_route[:name] = "#{current_route[:name]} - #{station}"
-  #
-  #      else
-  #        current_route[:stations] << station
-  #
-  #        Place.where(name: station).first_or_create!
-  #      end
-  #    end
-  #  end
-  #  routes
-  #end
+#def collect_places
+#  routes = []
+#  (1..4).each do |t|
+#    doc = Nokogiri::HTML(Net::HTTP.get URI.parse("http://82.77.146.19/statii#{t}.html"))
+#    routes_string = ""
+#    doc.css('#centerContentContainer div a ~ div div[style] div[style*="text-align:center"] > span').each do |node|
+#      routes_string += node.content.gsub(/\r/, '') + "\n"
+#    end
+#    routes_string = routes_string.gsub(/ \n/, "\n").gsub(/\n+/, "\n")
+#    current_route = nil
+#    routes_string.split(/\n/).each do |station|
+#      if station =~ /^((M\s\d+)|(LINIA\s\d+)|(Expres\s\d+))/
+#        current_route = { name: station, stations: [] }
+#        routes << current_route
+#
+#        puts "ROUTE: #{t} - #{station}"
+#
+#      elsif station =~ /^SENS\s/
+#        current_route[:name] = "#{current_route[:name]} - #{station}"
+#
+#      else
+#        current_route[:stations] << station
+#
+#        Place.where(name: station).first_or_create!
+#      end
+#    end
+#  end
+#  routes
+#end
 end

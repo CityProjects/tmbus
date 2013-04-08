@@ -1,7 +1,7 @@
 class Route < ActiveRecord::Base
   include ClassnameTagLogger
 
-  include Concerns::HasEid
+  include Concerns::HasExternalRefs
   include Concerns::HasNames
 
   attr_accessible :vehicle_type

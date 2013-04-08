@@ -1,7 +1,7 @@
 class RouteStop < ActiveRecord::Base
   include ClassnameTagLogger
 
-  attr_accessible :route_stop_order
+  attr_accessible :order_idx
   attr_accessible :direction
 
   belongs_to :route
@@ -9,6 +9,10 @@ class RouteStop < ActiveRecord::Base
 
 
   ## validations
+
+  validates_presence_of :route_id
+  validates_presence_of :stop_id
+
 
 
   ## scopes
