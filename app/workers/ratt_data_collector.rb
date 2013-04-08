@@ -50,13 +50,26 @@ class RattDataCollector
           route_name = route[:name]
           route_eid = route[:eid]
           direction = route[:direction]
+          vehicle_type = case
+            when route_name =~ /^\d+/
+              Vehicle::VEHICLE_TYPE_BUS
+            when route_name =~ /^Tb/
+              Vehicle::VEHICLE_TYPE_TROLLEY
+            when route_name =~ /^E/
+              Vehicle::VEHICLE_TYPE_EXPRESS
+            when route_name =~ /^M/
+              Vehicle::VEHICLE_TYPE_METRO
+            when route_name =~ /^Tv/
+              Vehicle::VEHICLE_TYPE_TRAM
+          end
+          puts "vehicle: #{vehicle_type}"
 
           rt = Route.where('eid = ?', route_eid).first
           if rt.nil?
             rt = Route.create!(name: route_name, eid: route_eid, ename: route_name)
             #TODO: nofify admin of new data
           else
-            rt.update_attributes!(ename: route_name)
+            rt.update_attributes!(ename: route_name, vehicle_type: vehicle_type)
           end
 
           rs = RouteStop.where('route_id = ? AND stop_id = ?', rt.id, stop_id).first
@@ -96,12 +109,12 @@ class RattDataCollector
     order_idx = 0
     doc.css('#content table#tblMain tr').each do |tr_node|
       if tr_node.children[1].content =~ /^\d+/
-        route_eid = tr_node.children[1].content
-        stop_eid = tr_node.children[3].content
-        stop_name = tr_node.children[6].content
-        stop_long_name = tr_node.children[5].content
-        stop_lat = tr_node.children[8].content
-        stop_lng = tr_node.children[9].content
+        route_eid = tr_node.children[1].content.strip
+        stop_eid = tr_node.children[3].content.strip
+        stop_name = tr_node.children[6].content.strip
+        stop_long_name = tr_node.children[5].content.gsub(/\(.+\)/, '').strip
+        stop_lat = tr_node.children[8].content.strip
+        stop_lng = tr_node.children[9].content.strip
 
         stop = Stop.where('eid = ?', stop_eid).first
         if stop

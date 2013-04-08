@@ -14,10 +14,8 @@ Tmbus::Application.routes.draw do
 
 
 
-      get '/routes', to: 'routes_api#index'
-      get '/routes/:tag', to: 'routes_api#show'
-
-
+      get '/routes', to: 'public_api#index'
+      get '/routes/:id', to: 'public_api#show'
 
 
 

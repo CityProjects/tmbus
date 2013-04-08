@@ -18,6 +18,8 @@ gem 'resque', '~> 1.24.1'
 gem 'httparty', '~> 0.10.2'
 gem 'nokogiri', '~> 1.5.9'
 
+gem 'gon', '~> 4.0.2'
+
 gem 'jbuilder', '~> 1.2.0'
 
 gem 'mobile-fu', '~> 1.1.1'

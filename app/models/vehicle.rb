@@ -13,5 +13,14 @@ class Vehicle
           VEHICLE_TYPE_TRAM => 'Tv',
   }
 
+  VEHICLE_TYPES_NAMES = {
+          VEHICLE_TYPE_BUS => 'Bus',
+          VEHICLE_TYPE_TROLLEY => 'Trolley',
+          VEHICLE_TYPE_EXPRESS => 'ExpressBus',
+          VEHICLE_TYPE_METRO => 'MetroBus',
+          VEHICLE_TYPE_TRAM => 'Tram',
+  }
+
+
 
 end

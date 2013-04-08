@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="TUT">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -26,10 +26,17 @@
 <%= yield %>
 
 
-<%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery#{Rails.env.production? ? '.min' : ''}.js",
-                           "manage",
+
+<%= javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery#{Rails.env.production? ? '.min' : ''}.js",
+                           "//cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.3/angular#{Rails.env.production? ? '.min' : ''}.js",
+                           "//cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui#{Rails.env.production? ? '.min' : ''}.js",
                            debug: Rails.env.development? %>
 
+<%= include_gon(init: true) %>
+
+<%= content_for :before_javascripts if content_for?(:before_javascripts) %>
+
+<%= javascript_include_tag "manage", debug: Rails.env.development? %>
 
 <%= content_for :javascripts if content_for?(:javascripts) %>
 

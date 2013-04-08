@@ -13,5 +13,5 @@
 // FROM CDN = require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require_directory ./manage
+//= require ./manage/angular_app
 

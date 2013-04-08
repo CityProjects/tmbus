@@ -35,4 +35,10 @@ class Route < ActiveRecord::Base
   ####################################
 
 
+  def vehicle_type_name
+    return Vehicle::VEHICLE_TYPES_NAMES[self.vehicle_type]
+  end
+
+
+
 end

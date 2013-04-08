@@ -1,10 +1,13 @@
 <h3>Routes</h3>
 <hr />
 
-<%- Route.find_each do |route| %>
+<%- Route.order(:vehicle_type, :name).each do |route| %>
 
   <div class="route-container">
-    <h4><%= "#{route.name} (##{route.eid} : #{route.ename})" %></h4>
+    <div class="route-title">
+      <span class="name"><%= "#{Vehicle::VEHICLE_TYPES_NAMES[route.vehicle_type]} - #{route.name} (##{route.eid} : #{route.ename})" %></span>
+      <a href="<%= edit_manage_route_path(route) %>" class="edit btn btn-info btn-small">edit</a>
+    </div>
 
     <table class="table table-hover table-condensed">
       <thead>
