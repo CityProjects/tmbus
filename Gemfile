@@ -19,6 +19,7 @@ gem 'httparty', '~> 0.10.2'
 gem 'nokogiri', '~> 1.5.9'
 
 gem 'gon', '~> 4.0.2'
+gem 'ng-rails-csrf', git: 'git://github.com/xrd/ng-rails-csrf.git', branch: 'master', ref: 'e517c7e9c5c04d4c413122e4027ddc8de4dd1c1a'
 
 gem 'jbuilder', '~> 1.2.0'
 
@@ -36,6 +37,7 @@ group :assets do
   gem 'therubyracer', '~> 0.11.4', platforms: :ruby
   gem 'bootstrap-sass', '~> 2.3.1.0'
   gem 'compass-rails', '~> 1.0.3'
+  gem 'font-awesome-sass-rails', '~> 3.0.2.2'
 end
 
 

@@ -15,8 +15,10 @@ Tmbus::Application.routes.draw do
 
 
       get '/routes', to: 'public_api#index'
-      get '/routes/:id', to: 'public_api#show'
+      get '/routes/:id', to: 'public_api#route_show'
 
+
+      put '/routes', to: 'write_api#route_update'
 
 
     end

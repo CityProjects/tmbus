@@ -1,15 +1,37 @@
 <%- content_for :before_javascripts do %>
   <script type="text/javascript">
-
-
   </script>
 <%- end %>
 
-<div ng-controller="RouteEditCtrl">
+<a href="<%= manage_routes_path %>" class="btn btn-info">&lt; Back to list</a>
 
-<h3>Route {{route.name}} (#{{route.eid}})</h3>
-<hr />
+<div class="route-container" ng-controller="RouteEditCtrl">
+  <div class="route-title">
+    <span class="name">Route {{route.vehicle_type_name}} {{route.name}} (#{{route.eid}})</span>
+    <button ng-click="saveRouteData()" ng-disabled="saveBtnLabel != 'Save'">{{saveBtnLabel}}</button>
+  </div>
 
+
+  <table class="table table-hover table-condensed">
+    <thead>
+    <tr>
+      <th>Drag</th>
+      <th>Nume scurt</th>
+      <th>Nume lung</th>
+      <th>ID</th>
+    </tr>
+    </thead>
+
+    <tbody ui-sortable="{update: onListReordered()}" ng-model="route.stops" class="order-list">
+
+    <tr ng-repeat="stop in route.stops" class="list-item">
+      <td><i class="icon-reorder"></i></td>
+      <td><input type="text" size="30" ng-required ng-model="stop.name" /></td>
+      <td><span>{{stop.long_name}}</span></td>
+      <td>{{stop.eid}} : {{stop.ename}}</td>
+    </tr>
+
+    </tbody>
+  </table>
 
 </div>
-

@@ -9,7 +9,7 @@ module Api
       end
 
 
-      def show
+      def route_show
         render 'api/v1/public/route'
       end
 

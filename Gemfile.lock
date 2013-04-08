@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/xrd/ng-rails-csrf.git
+  revision: e517c7e9c5c04d4c413122e4027ddc8de4dd1c1a
+  ref: e517c7e9c5c04d4c413122e4027ddc8de4dd1c1a
+  branch: master
+  specs:
+    ng-rails-csrf (0.0.1)
+
 GEM
   remote: http://bundler-api.herokuapp.com/
   remote: https://rubygems.org/
@@ -69,6 +77,9 @@ GEM
       railties (>= 3.0.0)
     faker (1.1.2)
       i18n (~> 0.5)
+    font-awesome-sass-rails (3.0.2.2)
+      railties (>= 3.1.1)
+      sass-rails (>= 3.1.1)
     fssm (0.2.10)
     gon (4.0.2)
       actionpack (>= 2.3.0)
@@ -224,6 +235,7 @@ DEPENDENCIES
   database_cleaner
   factory_girl_rails (~> 4.2)
   faker
+  font-awesome-sass-rails (~> 3.0.2.2)
   gon (~> 4.0.2)
   httparty (~> 0.10.2)
   jbuilder (~> 1.2.0)
@@ -233,6 +245,7 @@ DEPENDENCIES
   meta_request
   mobile-fu (~> 1.1.1)
   newrelic_rpm
+  ng-rails-csrf!
   nokogiri (~> 1.5.9)
   pg (= 0.15.0)
   rails (= 3.2.12)
