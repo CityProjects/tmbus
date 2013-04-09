@@ -1,9 +1,12 @@
 module Api
   module V1
-    class BaseApiController < ActionController::Base
-      layout false
+    class BaseApiController < ActionController::Metal
+      include ActionController::Rendering
+      #include ActionController::MimeResponds
+      include AbstractController::Callbacks # for *_filter
 
-      respond_to :json
+      append_view_path "#{Rails.root}/app/views"
+
 
       def test
         render json: { response: 'ok' }
