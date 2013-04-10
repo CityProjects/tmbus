@@ -5,6 +5,7 @@ class Stop < ActiveRecord::Base
   include Concerns::HasNames
 
   attr_accessible :latitude, :longitude
+  attr_accessible :allowed_vehicles
 
   has_many :route_stops
   has_many :routes, through: :route_stops, uniq: true

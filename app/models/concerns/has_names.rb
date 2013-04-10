@@ -5,8 +5,6 @@ module Concerns
     included do
 
       attr_accessible :name, :long_name
-      attr_accessible :alternate_names
-
 
 
     end

@@ -2,7 +2,8 @@ module Api
   module V1
     class BaseApiController < ActionController::Metal
       include ActionController::Rendering
-      #include ActionController::MimeResponds
+      include ActionController::Renderers::All
+      include ActionController::MimeResponds
       include AbstractController::Callbacks # for *_filter
 
       append_view_path "#{Rails.root}/app/views"

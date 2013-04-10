@@ -1,1 +1,1 @@
-json.(stop, :id, :eid, :ename, :name, :long_name, :alternate_names, :latitude, :longitude)
+json.(stop, :id, :eid, :ename, :name, :long_name, :latitude, :longitude)

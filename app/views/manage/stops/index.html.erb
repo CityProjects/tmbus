@@ -1,0 +1,39 @@
+<h3>Statii</h3>
+<hr />
+
+<div class="tablelist-container">
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>ID : RattName</th>
+      <th>Nume scurt/lung</th>
+      <th>Rute</th>
+      <th>Vehicul</th>
+      <th>&nbsp;</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <%- @stops.each do |stop| %>
+      <tr>
+        <td>#<%= stop.eid %> : <%= stop.ename %></td>
+        <td>
+          <div><%= stop.name %></div>
+          <div><%= stop.long_name %></div>
+        </td>
+        <td>
+          <%- stop.routes.each do |route| %>
+            <%= route.name %> (<%= stop.route_stops.where('route_id = ?', route.id).first.direction %>),
+          <%- end %>
+        </td>
+        <td><%= stop.allowed_vehicles.try {|av| av.split(',').map {|vt| Vehicle::VEHICLE_TYPES_LETTERS[vt.to_i]}.join(',') } %></td>
+        <td>[edit]</td>
+      </tr>
+    <%- end %>
+    </tbody>
+  </table>
+</div>
+
+
+<p>&nbsp;</p>
+

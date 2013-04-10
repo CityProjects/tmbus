@@ -5,7 +5,7 @@ module Api
 
       def route_update
 
-        render nothing: true
+        render json: {}
       end
 
 

@@ -30,6 +30,7 @@ Tmbus::Application.routes.draw do
   get '/manage', to: 'manage/base_management#index'
   namespace :manage do
     resources :routes
+    resources :stops
   end
 
 

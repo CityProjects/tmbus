@@ -58,9 +58,11 @@ class RattDataCollector
             when route_name =~ /^E/
               Vehicle::VEHICLE_TYPE_EXPRESS
             when route_name =~ /^M/
-              Vehicle::VEHICLE_TYPE_METRO
+              Vehicle::VEHICLE_TYPE_METROBUS
             when route_name =~ /^Tv/
               Vehicle::VEHICLE_TYPE_TRAM
+            else
+              Vehicle::VEHICLE_TYPE_P
           end
           puts "vehicle: #{vehicle_type}"
 
@@ -83,6 +85,20 @@ class RattDataCollector
           else
             rs.update_attributes!(direction: direction)
           end
+
+
+          stop = Stop.find(stop_id)
+          if stop.allowed_vehicles.nil?
+            stop.update_attributes!(allowed_vehicles: "#{vehicle_type}")
+          else
+            unless stop.allowed_vehicles[vehicle_type.to_s]
+              av = stop.allowed_vehicles.split(',').map(&:to_i)
+              av << vehicle_type
+              av.sort!
+              stop.update_attributes!(allowed_vehicles: av.join(','))
+            end
+          end
+
         end
       end
 

@@ -8,7 +8,6 @@ class CreateRoutes < ActiveRecord::Migration
 
       t.string :name
       t.string :long_name
-      t.string :alternate_names
 
       t.integer :vehicle_type
 

@@ -1,5 +1,9 @@
-<a href="<%= manage_routes_path %>" class="btn btn-info">&lt; Back to list</a>
+<%- content_for :before_javascripts do %>
+  <script type="text/javascript">
+  </script>
+<%- end %>
 
+<a href="<%= manage_routes_path %>" class="btn btn-info">&lt; Back to list</a>
 
 <div class="route-container" ng-controller="RouteEditCtrl">
   <div class="route-title">
@@ -11,7 +15,7 @@
   <table class="table table-hover table-condensed">
     <thead>
     <tr>
-      <th>Drag ord</th>
+      <th>Drag</th>
       <th>Nume scurt</th>
       <th>Nume lung</th>
       <th>ID</th>
