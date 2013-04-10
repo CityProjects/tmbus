@@ -1,6 +1,7 @@
 development:
   adapter: postgresql
   encoding: unicode
+  host: localhost
   database: tmbus_development
   pool: 5
 
@@ -8,6 +9,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
+  host: localhost
   database: tmbus_test
   pool: 5
 
