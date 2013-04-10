@@ -20,11 +20,11 @@
 
     <tbody ui-sortable="{update: onListReordered()}" ng-model="route.stops" class="order-list">
 
-    <tr ng-repeat="stop in route.stops" class="list-item">
-      <td><i class="icon-reorder"></i></td>
-      <td><input type="text" size="30" ng-required ng-model="stop.name" /></td>
-      <td><span>{{stop.long_name}}</span></td>
-      <td>{{stop.eid}} : {{stop.ename}}</td>
+    <tr ng-repeat="routeStop in route.stops" class="list-item">
+      <td><i class="icon-reorder"></i> {{routeStop.direction}}</td>
+      <td><input type="text" size="30" ng-required ng-model="routeStop.stop.name" /></td>
+      <td><span>{{routeStop.stop.long_name}}</span></td>
+      <td>{{routeStop.stop.eid}} : {{routeStop.stop.ename}}</td>
     </tr>
 
     </tbody>

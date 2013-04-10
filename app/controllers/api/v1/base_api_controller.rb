@@ -1,6 +1,7 @@
 module Api
   module V1
     class BaseApiController < ActionController::Metal
+      include ClassnameTagLogger
       include ActionController::Rendering
       include ActionController::Renderers::All
       include ActionController::MimeResponds

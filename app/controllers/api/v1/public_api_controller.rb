@@ -5,7 +5,7 @@ module Api
       before_filter :load_route, except: [ :index ]
 
       def index
-        render json: [{ 'route1' => 'data1' }, { 'route2' => 'data2' }]
+        render json: []
       end
 
 

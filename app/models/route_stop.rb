@@ -10,6 +10,8 @@ class RouteStop < ActiveRecord::Base
 
   ## validations
 
+  validates :direction, presence: true, inclusion: { in: [0, 1] }
+
   validates_presence_of :route_id
   validates_presence_of :stop_id
 

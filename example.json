@@ -1,0 +1,49 @@
+// Route
+
+{
+    id: 123,
+    eid: 22233,
+    ename: 'Tv5',
+    //....
+    directions: {
+        '0': {
+            name: 'Catre U.T.T',
+            stops: [
+                {
+                    id: 1,
+                    eid: 1121,
+                    ename: 'T.Grozavescu_1',
+                    order_idx: 1,
+                    direction: 0,
+                    stop_id: 4,
+                    route_id: 123,
+                    route_stop_id: 1,
+                    stop: {
+                        id: 4,
+                        latitude: 45.1231,
+                        //...
+                    }
+                }
+                {
+                    // ...
+                }
+            ]
+        },
+
+        '1': {
+            name: 'Catre T.Grozavescu',
+            stops: [
+                {
+
+                },
+                {
+
+                }
+                // ...
+            ]
+        }
+
+    }//directions
+
+}
+

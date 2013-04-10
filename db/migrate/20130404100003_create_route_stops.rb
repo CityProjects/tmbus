@@ -3,7 +3,7 @@ class CreateRouteStops < ActiveRecord::Migration
     create_table :route_stops do |t|
 
       t.integer :order_idx
-      t.integer :direction
+      t.integer :direction, null: false
 
       t.references :route
       t.references :stop
