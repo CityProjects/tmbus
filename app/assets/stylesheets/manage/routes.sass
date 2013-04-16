@@ -1,24 +1,124 @@
+@import "bootstrap/mixins"
 
-.route-container
-  padding: 1em
+
+.route-lists-container
+  margin-top: 1em
+  margin-left: 1em
 
   .route-title
     padding: 1em 0
-
     .name
-      margin-right: 1em
+      font-size: 1.3em
       font-weight: bold
-      font-size: 1.5em
+
+  .route-directions-container
+    float: left
+    width: 300px
+    margin-right: 20px
+
+    .route-direction-title
+      padding: 8px
+      font-weight: bold
+
+    ul.route-stops-list
+      list-style-type: none
+
+      li.route-stop-list-item
+        -moz-box-sizing: border-box
+        -webkit-box-sizing: border-box
+        box-sizing: border-box
+        margin: 8px
+        padding: 3px
+        @include box-shadow(1px 1px 3px #ececec)
+        @include border-radius(4px)
+        .route-stop-list-item-container
+          position: relative
+          height: 40px
+
+          .visible-on-hover
+            display: none
+            position: absolute
+          &.mouseover
+            .visible-on-hover
+              display: block
+
+          .bullet
+            display: block
+            position: absolute
+            top: 0px
+            left: 0
+            width: 20px
+            height: 40px
+            cursor: move
+          .name
+            display: block
+            position: absolute
+            top: 0
+            left: 26px
+            width: 190px
+            padding: 1px
+            font-weight: bold
+            border: 1px solid transparent
+            background-color: transparent
+            &:hover
+              border: 1px solid #cccccc
+              background-color: rgba(255,255,255, 0.1)
+            &:focus
+              border: 1px solid #cccccc
+              background-color: #ffffff
+          .eid
+            display: block
+            position: absolute
+            bottom: 0
+            left: 26px
+            font-size: 10px
+          .remove
+            top: -2px
+            right: -2px
+            color: #666666
+            font-size: 12px
+            cursor: pointer
+            &:hover
+              text-shadow: 1px 1px 2px #aaaaaa
+          .map-marker
+            bottom: 0px
+            right: -4px
+            color: #666666
+            font-size: 16px
+            cursor: pointer
+            &.missing
+              display: block
+              color: red
+            &.selected
+              display: block
+              color: #222222
+              text-shadow: 0px 0px 6px #000000
+
+        &:hover
+          @include box-shadow(1px 1px 5px 2px #ececec)
 
 
-  .order-list
+    &.direction0
+      .route-direction-title
+        background-color: #bcdb8c
+      ul.route-stops-list
+        border: 1px solid #bcdb8c
+        li.route-stop-list-item
+          border: 1px solid #bcdb8c
+          background-color: #f4fbeb
 
-    .stop-item
-      padding: 0.3em 0
+    &.direction1
+      .route-direction-title
+        background-color: #bae5f8
+      ul.route-stops-list
+        border: 1px solid #bae5f8
+        li.route-stop-list-item
+          border: 1px solid #bae5f8
+          background-color: #ebf8ff
 
-      &:hover
-        background-color: #fafad2
 
-      .icon-reorder
-        cursor: ns-resize
+  .route-map-container
+    .map
+      width: 600px
+      height: 500px
 

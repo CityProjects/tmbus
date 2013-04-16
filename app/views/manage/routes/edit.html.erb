@@ -1,33 +1,39 @@
+<% content_for :before_stylesheets do %>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+<% end %>
+
 <a href="<%= manage_routes_path %>" class="btn btn-info">&lt; Back to list</a>
 
 
-<div class="route-container" ng-controller="RouteEditCtrl">
+<div class="route-lists-container ng-cloak" ng-controller="RouteEditCtrl">
+
   <div class="route-title">
     <span class="name">Route {{route.vehicle_type_name}} {{route.name}} (#{{route.eid}})</span>
-    <button ng-click="saveRouteData()" ng-disabled="saveBtnLabel != 'Save'">{{saveBtnLabel}}</button>
+    <button ng-click="onClickSaveRouteData()" ng-disabled="saveBtnLabel != 'Save'" class="btn" ng-class="'btn-' + saveStatus">{{saveBtnLabel}}</button>
   </div>
 
 
-  <table class="table table-hover table-condensed">
-    <thead>
-    <tr>
-      <th>Drag ord</th>
-      <th>Nume scurt</th>
-      <th>Nume lung</th>
-      <th>ID</th>
-    </tr>
-    </thead>
+  <div ng-repeat="direction in route.directions" class="route-directions-container" ng-class="'direction{{$index}}'">
+    <div class="route-direction-title">{{direction.name}} ({{direction.stops.length}} statii)</div>
+    <ul ui-multi-sortable ui-options="sortableOptions" ng-model="route" model-subset="directions[{{$index}}].stops" class="route-stops-list unstyled">
+      <li ng-repeat="stop in direction.stops" class="route-stop-list-item">
+        <tut-route-list-item stop="stop"></tut-route-list-item>
+      </li>
+    </ul>
+  </div>
 
-    <tbody ui-sortable="{update: onListReordered()}" ng-model="route.stops" class="order-list">
 
-    <tr ng-repeat="routeStop in route.stops" class="list-item">
-      <td><i class="icon-reorder"></i> {{routeStop.direction}}</td>
-      <td><input type="text" size="30" ng-required ng-model="routeStop.stop.name" /></td>
-      <td><span>{{routeStop.stop.long_name}}</span></td>
-      <td>{{routeStop.stop.eid}} : {{routeStop.stop.ename}}</td>
-    </tr>
+  <div class="route-map-container">
+    <h3>Map</h3>
+    <route-edit-map center="mapData.center" zoom="mapData.zoom" stops="mapData.stops"></route-edit-map>
+  </div>
 
-    </tbody>
-  </table>
+
+
+
+  <div style="position: absolute; display:block; top: 2px; right: 2px; z-index: 99999; border: 1px solid orange; background-color: #fbfbeb">
+    <label class="pull-right">Show model: <input type="checkbox" ng-model="debug_showModel"></label>
+    <pre ng-bind="route | json" ng-show="debug_showModel"></pre>
+  </div>
 
 </div>

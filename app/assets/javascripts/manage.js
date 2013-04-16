@@ -14,5 +14,9 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require ng-rails-csrf
+//= require angular-multi-sortable
+//= require leaflet-awesome-markers.min
+//= require leafleet-plugin-bouncemarker
 //= require ./manage/angular_app
+//= require ./manage/directives
 
