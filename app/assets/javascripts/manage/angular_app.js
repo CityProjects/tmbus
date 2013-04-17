@@ -165,12 +165,12 @@
       replace: true,
       transclude: true,
       template: '<div class="route-stop-list-item-container" ng-mouseenter="onMouseEnterListItem()" ng-mouseleave="onMouseLeaveListItem()" ng-class="stopListItemClassName">' +
-              '<div class="bullet"><i ng-class="bulletIconClassName"></i></div>' +
-              '<input type="text" class="name" required="required" ng-model="stop.name" maxlength="26" ui-event="{ blur: \'onNameInputBlur()\' }" />' +
-              '<div class="eid">{{stop.ename}} &nbsp; (#{{stop.id}})</div>' +
-              '<i class="remove visible-on-hover icon-remove"></i>' +
-              '<i class="map-marker visible-on-hover icon-map-marker" ng-class="mapMarkerExtraClassName" ng-click="onMapMarkerClick()"></i>' +
-              '</div>',
+                  '<div class="bullet"><i ng-class="bulletIconClassName"></i></div>' +
+                  '<input type="text" class="name" required="required" ng-model="stop.name" maxlength="26" ui-event="{ blur: \'onNameInputBlur()\', focus: \'onNameInputFocus()\' }" />' +
+                  '<div class="eid">{{stop.ename}} &nbsp; (#{{stop.id}})</div>' +
+                  '<i class="remove visible-on-hover icon-remove"></i>' +
+                  '<i class="map-marker visible-on-hover icon-map-marker" ng-class="mapMarkerExtraClassName" ng-click="onMapMarkerClick()"></i>' +
+                '</div>',
       link: function (scope, element, attrs) {
         var defaultBulletIcon = 'icon-circle-blank',
                 stop = scope.stop;
@@ -198,9 +198,19 @@
           routeEditService.hoveredStop = null;
         };
 
-        scope.onNameInputBlur = function () {
-          scope.markModelDirty();
+
+        var textName = null;
+        scope.onNameInputFocus = function () {
+          textName = stop.name;
         };
+
+        scope.onNameInputBlur = function () {
+          if (textName !== stop.name) {
+            scope.markModelDirty();
+          }
+        };
+
+
 
         scope.$watch('stop.latitude', function (stopLat) {
           if (stopLat != null) {
