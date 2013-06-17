@@ -35,6 +35,6 @@ Tmbus::Application.routes.draw do
   end
 
 
-  root to: 'content#index'
+  root to: 'manage/base_management#index'
 
 end
