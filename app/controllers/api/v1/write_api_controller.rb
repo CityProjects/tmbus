@@ -4,7 +4,8 @@ module Api
 
 
       def route_update
-        logger.debug "params: #{params}"
+        logger.debug "params: #{params.as_json}"
+
         render json: {}
       end
 

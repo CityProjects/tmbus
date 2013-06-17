@@ -8,13 +8,25 @@
 <div class="route-lists-container ng-cloak" ng-controller="RouteEditCtrl">
 
   <div class="route-title">
-    <span class="name">Route {{route.vehicle_type_name}} {{route.name}} (#{{route.eid}})</span>
+    <span class="name">Traseu {{route.vehicle_type_name}} {{route.name}} (#{{route.eid}})</span>
+    &nbsp; &nbsp; &nbsp;
     <button ng-click="onClickSaveRouteData()" ng-disabled="saveBtnLabel != 'Save'" class="btn" ng-class="'btn-' + saveStatus">{{saveBtnLabel}}</button>
   </div>
 
 
   <div ng-repeat="direction in route.directions" class="route-directions-container" ng-class="'direction{{$index}}'">
-    <div class="route-direction-title">{{direction.name}} ({{direction.stops.length}} statii)</div>
+    <div class="route-direction-header">
+      <div class="route-direction-title"><i class="icon-angle-right"></i> {{direction.name}} ({{direction.stops.length}} statii)
+        <i class="add-stop-icon pull-right icon-plus-sign" ng-click="onAddStopClicked(direction)" title="Adauga statie" tooltip="Adauga statie" tooltip-placement="left"></i>
+      </div>
+      <div class="add-stop-container" ng-show="addStopToDirection == direction">
+        <form class="add-stop-form form-inline" ng-show="allStops != null" ng-submit="onSubmitAddStopForm(selectedNewStop)">
+          <i class="icon-search"></i> <input type="text" ng-model="selectedNewStop"
+                                             typeahead="s as s.name + ' ('+ s.ename +')' for s in allStops | filter:$viewValue | limitTo:20" class="route-search-input" />
+        </form>
+        <div ng-hide="allStops != null">Se incarca statiile ...</div>
+      </div>
+    </div>
     <ul ui-multi-sortable ui-options="sortableOptions" ng-model="route" model-subset="directions[{{$index}}].stops" class="route-stops-list unstyled">
       <li ng-repeat="stop in direction.stops" class="route-stop-list-item">
         <tut-route-list-item stop="stop"></tut-route-list-item>
@@ -24,8 +36,7 @@
 
 
   <div class="route-map-container">
-    <h3>Map</h3>
-    <route-edit-map center="mapData.center" zoom="mapData.zoom" stops="mapData.stops"></route-edit-map>
+    <tut-route-edit-map center="mapData.center" zoom="mapData.zoom" stops="mapData.stops"></tut-route-edit-map>
   </div>
 
 

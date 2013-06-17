@@ -7,7 +7,7 @@ class CreateStops < ActiveRecord::Migration
       t.string :tag
 
       t.string :name
-      t.string :long_name
+      t.string :alternate_names
       t.string :allowed_vehicles
 
       t.float :latitude
@@ -19,5 +19,8 @@ class CreateStops < ActiveRecord::Migration
     add_index :stops, :eid, unique: true
     add_index :stops, :tag, unique: true
     add_index :stops, :allowed_vehicles
+    add_index :stops, :name
+    add_index :stops, :alternate_names
+
   end
 end

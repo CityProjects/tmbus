@@ -13,8 +13,9 @@ Tmbus::Application.routes.draw do
       match '/auth', to: 'base_api#auth'
 
 
+      get '/stops', to: 'public_api#stops'
 
-      get '/routes', to: 'public_api#index'
+      get '/routes', to: 'public_api#routes'
       get '/routes/:id', to: 'public_api#route_show'
 
 

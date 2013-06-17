@@ -1,7 +1,111 @@
 (function () {
   'use strict';
 
-  this.TUT.directive("routeEditMap", [ 'tutRouteEditService', '$rootScope', function (routeEditService, $rootScope) {
+  this.TUT.directive('tutRouteListItem', [ 'tutRouteEditService', '$rootScope', function (routeEditService, $rootScope) {
+    var directiveDefObject = {
+      restrict: 'E',
+      replace: true,
+      transclude: true,
+      template: '<div class="route-stop-list-item-container" ng-mouseenter="onMouseEnterListItem()" ng-mouseleave="onMouseLeaveListItem()" ng-class="stopListItemClassName">' +
+              '<div class="bullet"><i ng-class="bulletIconClassName"></i></div>' +
+              '<input type="text" class="name" required="required" ng-model="stop.name" maxlength="26" ui-event="{ blur: \'onNameInputBlur()\', focus: \'onNameInputFocus()\' }" />' +
+              '<div class="eid">{{stop.ename}} &nbsp; (#{{stop.id}})</div>' +
+              '<i class="remove visible-on-hover icon-remove"></i>' +
+              '<i class="map-marker visible-on-hover icon-map-marker" ng-class="mapMarkerExtraClassName" ng-click="onMapMarkerClick()"></i>' +
+              '</div>',
+      link: function (scope, element, attrs) {
+        var defaultBulletIcon = 'icon-circle-blank',
+                stop = scope.stop;
+
+        element.find('input.name').on('keypress', function (event) {
+          if (event.keyCode === 13) {
+            event.preventDefault();
+            $(event.target).blur();
+          }
+        });
+
+        scope.bulletIconClassName = defaultBulletIcon;
+
+        scope.onMouseEnterListItem = function () {
+//          console.log('mouse enter');
+          scope.stopListItemClassName = 'mouseover';
+          scope.bulletIconClassName = 'icon-move';
+          routeEditService.hoveredStop = stop;
+        };
+
+        scope.onMouseLeaveListItem = function () {
+//          console.log('mouse leave');
+          scope.stopListItemClassName = '';
+          scope.bulletIconClassName = defaultBulletIcon;
+          routeEditService.hoveredStop = null;
+        };
+
+
+        var textName = null;
+        scope.onNameInputFocus = function () {
+          textName = stop.name;
+        };
+
+        scope.onNameInputBlur = function () {
+          stop.name = stop.name.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+          if (textName !== stop.name) {
+            scope.markModelDirty();
+          }
+        };
+
+
+
+        scope.$watch('stop.latitude', function (stopLat) {
+          if (stopLat != null) {
+            if (routeEditService.selectedStop === stop) {
+              scope.mapMarkerExtraClassName = 'selected';
+            } else {
+              scope.mapMarkerExtraClassName = '';
+            }
+          } else {
+            scope.mapMarkerExtraClassName = 'missing';
+          }
+        });
+
+
+        $rootScope.$watch('selectedStop', function (selectedStop) {
+          if (selectedStop === stop) {
+            scope.mapMarkerExtraClassName = 'selected';
+          } else if (stop.latitude != null) {
+            scope.mapMarkerExtraClassName = '';
+          } else {
+            scope.mapMarkerExtraClassName = 'missing';
+          }
+        });
+
+
+        scope.onMapMarkerClick = function () {
+          if (stop.latitude && stop.longitude) {
+            if (routeEditService.selectedStop === stop) {
+              routeEditService.selectedStop = null;
+            } else {
+              routeEditService.selectedStop = stop;
+            }
+          } else {
+            stop.latitude = scope.mapData.center.lat;
+            stop.longitude = scope.mapData.center.lng;
+            stop.mapMarkerBounce = true;
+            scope.mapData.stops.push(stop);
+            routeEditService.selectedStop = stop;
+          }
+        };
+
+      }
+    };
+    return directiveDefObject;
+  }]);
+
+
+
+
+
+
+  this.TUT.directive("tutRouteEditMap", [ 'tutRouteEditService', '$rootScope', function (routeEditService, $rootScope) {
 
     var directiveDefObj =  {
       restrict: "E",
@@ -9,8 +113,7 @@
       transclude: true,
       scope: {
         center: "=center",
-        zoom: "=zoom",
-        stops: "=stops"
+        zoom: "=zoom"
       },
       template: '<div class="map"></div>',
       link: function (scope, element, attrs) {
@@ -161,7 +264,7 @@
 
 
 
-        scope.$watch("stops", function (stops) {
+        $rootScope.$watch('mapData.stops', function (stops) {
           if ( ! stops) {
             return;
           }
@@ -239,13 +342,42 @@
 
           marker = setMarkerIconForStop(routeEditService.previouslySelectedStop);
           enableDraggingMarker(marker, true);
-      });
+        });
 
 
-  } // end of link function
-};
+      } // end of link function
+    };
 
-return directiveDefObj;
-}]);
+    return directiveDefObj;
+  }]);
+
+
+
+
+
+
+
+
+  this.TUT.directive("rcHasFocus", [ function () {
+
+    var directiveDefObj =  {
+      restrict: "A",
+      link: function (scope, element, attrs) {
+        var $el = element[0];
+        scope.$watch(attrs.rcHasFocus, function (hasFocus) {
+          if (hasFocus) {
+            $el.focus();
+          } else if (hasFocus === false) {
+            $el.blur();
+          }
+        });
+      }
+    };
+
+    return directiveDefObj;
+  }]);
+
+
+
 
 }).call(window);

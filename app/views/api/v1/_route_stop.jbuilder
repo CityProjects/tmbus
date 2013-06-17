@@ -1,5 +1,5 @@
 json.(route_stop, :direction, :order_idx, :route_id, :stop_id)
-json.route_stop_id route_stop.id
+json.__route_stop_id route_stop.id
 
 if defined?(with)
   if with == :route

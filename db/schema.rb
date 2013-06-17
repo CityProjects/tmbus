@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(:version => 20130404100003) do
 
   create_table "route_stops", :force => true do |t|
     t.integer  "order_idx"
-    t.integer  "direction"
+    t.integer  "direction",  :null => false
     t.integer  "route_id"
     t.integer  "stop_id"
     t.datetime "created_at", :null => false
@@ -34,12 +34,11 @@ ActiveRecord::Schema.define(:version => 20130404100003) do
     t.string   "ename"
     t.string   "tag"
     t.string   "name"
-    t.string   "long_name"
+    t.string   "direction0_name"
+    t.string   "direction1_name"
     t.integer  "vehicle_type"
-    t.integer  "stop1_id"
-    t.integer  "stop2_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   add_index "routes", ["eid"], :name => "index_routes_on_eid", :unique => true
@@ -51,7 +50,7 @@ ActiveRecord::Schema.define(:version => 20130404100003) do
     t.string   "ename"
     t.string   "tag"
     t.string   "name"
-    t.string   "long_name"
+    t.string   "alternate_names"
     t.string   "allowed_vehicles"
     t.float    "latitude"
     t.float    "longitude"
@@ -60,7 +59,9 @@ ActiveRecord::Schema.define(:version => 20130404100003) do
   end
 
   add_index "stops", ["allowed_vehicles"], :name => "index_stops_on_allowed_vehicles"
+  add_index "stops", ["alternate_names"], :name => "index_stops_on_alternate_names"
   add_index "stops", ["eid"], :name => "index_stops_on_eid", :unique => true
+  add_index "stops", ["name"], :name => "index_stops_on_name"
   add_index "stops", ["tag"], :name => "index_stops_on_tag", :unique => true
 
 end

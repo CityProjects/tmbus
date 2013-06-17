@@ -8,6 +8,15 @@ class RattDataCollector
 
   THREAD_COUNT = 6
 
+
+
+  def collect_all
+    self.collect_stops_data
+    self.collect_routes_data
+    self.collect_from_gspreadsheet
+  end
+
+
   def collect_stops_data
     doc = Nokogiri::HTML(Net::HTTP.get(URI.parse(STOPS_URL)))
     doc.css('select > option').each do |node|

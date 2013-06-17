@@ -2,9 +2,17 @@ module Api
   module V1
     class PublicApiController < Api::V1::BaseApiController
 
-      before_filter :load_route, except: [ :index ]
+      before_filter :load_route, only: [ :route_show ]
 
-      def index
+
+
+      def stops
+        @stops = Stop.all
+        render 'api/v1/public/stops'
+      end
+
+
+      def routes
         render json: []
       end
 

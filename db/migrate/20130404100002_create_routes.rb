@@ -7,12 +7,12 @@ class CreateRoutes < ActiveRecord::Migration
       t.string :tag
 
       t.string :name
-      t.string :long_name
+
+      t.string :direction0_name
+      t.string :direction1_name
 
       t.integer :vehicle_type
 
-      t.integer :stop1_id
-      t.integer :stop2_id
 
       t.timestamps
     end

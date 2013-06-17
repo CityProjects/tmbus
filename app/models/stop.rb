@@ -2,8 +2,8 @@ class Stop < ActiveRecord::Base
   include ClassnameTagLogger
 
   include Concerns::HasExternalRefs
-  include Concerns::HasNames
 
+  attr_accessible :name
   attr_accessible :latitude, :longitude
   attr_accessible :allowed_vehicles
 
