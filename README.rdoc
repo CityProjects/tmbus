@@ -1,4 +1,6 @@
-== Welcome to TranziTM
 
-Work in progress
 
+Server/API for http://cityprojects.ro/proiecte/timisoara-public-transport/
+
+
+Live at http://tmbus.herokuapp.com
