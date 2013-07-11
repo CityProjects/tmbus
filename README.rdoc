@@ -1,6 +1,7 @@
 
-
-Server/API for http://cityprojects.ro/proiecte/timisoara-public-transport/
+Server/API RoR implementation for http://cityprojects.ro/proiecte/timisoara-public-transport/
 
 
 Live at http://tmbus.herokuapp.com
+
+Wiki at https://github.com/CityProjects/tmbus/wiki
